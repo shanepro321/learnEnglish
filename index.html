@@ -29,15 +29,10 @@ function MainComponent() {
   };
 
   const generateQuestion = () => {
-    const randomEntry =
-      questionBank[Math.floor(Math.random() * questionBank.length)];
+    const randomEntry = questionBank[Math.floor(Math.random() * questionBank.length)];
     const incorrectOptions = questionBank.filter((q) => q !== randomEntry);
-    const randomOptions = incorrectOptions
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
-    const allOptions = [...randomOptions, randomEntry].sort(
-      () => 0.5 - Math.random()
-    );
+    const randomOptions = incorrectOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
+    const allOptions = [...randomOptions, randomEntry].sort(() => 0.5 - Math.random());
 
     setCurrentQuestion(randomEntry);
     setOptions(allOptions);
@@ -62,7 +57,7 @@ function MainComponent() {
           <h2 className="text-xl font-roboto mb-2">Create Question Bank</h2>
 
           <form className="mb-8" onSubmit={addWord}>
-            {/* 省略表單輸入部分 */}
+            {/* 表單輸入部分省略 */}
             <button
               type="submit"
               className="w-full py-2 bg-blue-500 text-white rounded"
