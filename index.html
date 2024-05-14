@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英文單字四選一</title>
+</head>
+<body>
+<h1>請選擇正確的單字：</h1>
+<div id="question"></div>
+<div id="options"></div>
+<button onclick="checkAnswer()">確認答案</button>
+
+<script>
+const words = [
+    { question: 'Excitement', options: ['A. Thrill', 'B. Silence', 'C. Sadness', 'D. Fear'], answer: 'A' },
+    { question: 'Delicious', options: ['A. Tasty', 'B. Bland', 'C. Bitter', 'D. Sour'], answer: 'A' },
+    { question: 'Calm', options: ['A. Serene', 'B. Angry', 'C. Anxious', 'D. Depressed'], answer: 'A' },
+    // 可以繼續添加更多單字及其選項
+];
+
+let currentQuestion = 0;
+
+function displayQuestion() {
+    const questionDiv = document.getElementById('question');
+    const optionsDiv = document.getElementById('options');
+    const currentWord = words[currentQuestion];
+
+    questionDiv.innerHTML = `<p>${currentWord.question}</p>`;
+    optionsDiv.innerHTML = currentWord.options.map(option => `<label><input type="radio" name="answer" value="${option.charAt(0)}">${option}</label><br>`).join('');
+}
+
+function checkAnswer() {
+    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    if (!selectedAnswer) {
+        alert('請選擇一個答案！');
+        return;
+    }
+
+    const currentWord = words[currentQuestion];
+    const correctAnswer = currentWord.answer;
+
+    if (selectedAnswer.value === correctAnswer) {
+        alert('答對了！');
+    } else {
+        alert('答錯了！');
+    }
+
+    currentQuestion++;
+    if (currentQuestion < words.length) {
+        displayQuestion();
+    } else {
+        alert('已經答完所有單字！');
+    }
+}
+
+displayQuestion();
+</script>
+</body>
+</html>
