@@ -91,7 +91,7 @@
             <h1>English Learning App</h1>
             <div class="vstack">
                 <div class="hstack">
-                    <div class="large-box">開始測驗</div>
+                    <div class="large-box" onclick="navigateToQuiz()">開始測驗</div>
                     <div class="large-box">單字拼寫</div>
                 </div>
                 <div class="hstack">
@@ -103,10 +103,14 @@
 
         <div id="quiz" class="page" style="display: none;">
             <!-- Quiz content goes here -->
+            <h1>Quiz Page</h1>
+            <p>This is the quiz page content.</p>
         </div>
 
         <div id="settings" class="page" style="display: none;">
             <!-- Settings content goes here -->
+            <h1>Settings Page</h1>
+            <p>This is the settings page content.</p>
         </div>
     </div>
 
@@ -130,6 +134,12 @@
                 });
             });
         });
+
+        function navigateToQuiz() {
+            // Logic to navigate to the quiz page
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block'; // Show the quiz page
+        }
     </script>
 </body>
 </html>
