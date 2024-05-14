@@ -3,73 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VStack and HStack Example</title>
+    <title>English Learning App</title>
     <style>
         /* Global styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-        }
-
-        /* Container styles */
-        .container {
-            display: flex;
-            flex-direction: column; /* Vertical stacking like VStack */
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             background-color: #f0f0f0;
         }
 
-        /* VStack and HStack styles */
-        .vstack {
+        /* Navigation styles */
+        #navigation {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+        #navigation ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #navigation ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        #navigation ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Page styles */
+        .page {
+            padding: 20px;
             display: flex;
             flex-direction: column; /* Vertical stacking */
             align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
         }
 
         .hstack {
             display: flex;
             flex-direction: row; /* Horizontal stacking */
             justify-content: center;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
-        /* Box styles */
-        .box {
+        .large-box {
+            border-radius: 15px;
+            background-color: blue;
             width: 150px;
             height: 150px;
-            background-color: blue;
-            color: white;
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin: 5px;
+            align-items: center;
+            color: white;
+            font-size: 1.5em;
+            margin: 10px;
+            cursor: pointer;
         }
+
+        .large-box:hover {
+            background-color: darkblue;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-top: 0;
+        }
+
+        /* Add more styles as needed */
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="vstack">
-            <div class="box">Box 1</div>
-            <div class="box">Box 2</div>
-            <div class="box">Box 3</div>
+    <div id="navigation">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#settings">Settings</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <div id="home" class="page">
+            <h1>English Learning App</h1>
+            <div class="vstack">
+                <div class="hstack">
+                    <div class="large-box">開始測驗</div>
+                    <div class="large-box">單字拼寫</div>
+                </div>
+                <div class="hstack">
+                    <div class="large-box">新增單字</div> <!-- Placeholder for Add Word -->
+                    <div class="large-box">題庫管理</div> <!-- Placeholder for Bank -->
+                </div>
+            </div>
         </div>
 
-        <div class="hstack">
-            <div class="box">Box 4</div>
-            <div class="box">Box 5</div>
-            <div class="box">Box 6</div>
+        <div id="quiz" class="page" style="display: none;">
+            <!-- Quiz content goes here -->
         </div>
 
-        <div class="vstack">
-            <div class="box">Box 7</div>
-            <div class="box">Box 8</div>
-            <div class="box">Box 9</div>
+        <div id="settings" class="page" style="display: none;">
+            <!-- Settings content goes here -->
         </div>
     </div>
+
+    <script>
+        // JavaScript for handling navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navigationLinks = document.querySelectorAll('#navigation ul li a');
+            const pages = document.querySelectorAll('.page');
+
+            navigationLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    pages.forEach(page => {
+                        if (page.id === targetId) {
+                            page.style.display = 'block';
+                        } else {
+                            page.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
