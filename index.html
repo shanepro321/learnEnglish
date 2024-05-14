@@ -1,107 +1,117 @@
-import React, { useState } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning App</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
 
-function MainComponent() {
-  const [questionBank, setQuestionBank] = useState([]);
-  const [chineseWord, setChineseWord] = useState("");
-  const [englishWord, setEnglishWord] = useState("");
-  const [testStarted, setTestStarted] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState(null);
-  const [options, setOptions] = useState([]);
-  const [page, setPage] = useState("words");
-  const [score, setScore] = useState(0);
+        /* Navigation styles */
+        #navigation {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
 
-  const addWord = (e) => {
-    e.preventDefault();
-    const newEntry = { chinese: chineseWord, english: englishWord };
-    setQuestionBank([...questionBank, newEntry]);
-    setChineseWord("");
-    setEnglishWord("");
-  };
+        #navigation ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
 
-  const startTest = () => {
-    if (questionBank.length < 4) {
-      alert("Please add at least 4 words to the question bank.");
-      return;
-    }
-    setTestStarted(true);
-    setPage("test");
-    generateQuestion();
-  };
+        #navigation ul li {
+            display: inline;
+            margin-right: 10px;
+        }
 
-  const generateQuestion = () => {
-    const randomEntry = questionBank[Math.floor(Math.random() * questionBank.length)];
-    const incorrectOptions = questionBank.filter((q) => q !== randomEntry);
-    const randomOptions = incorrectOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
-    const allOptions = [...randomOptions, randomEntry].sort(() => 0.5 - Math.random());
+        #navigation ul li a {
+            color: white;
+            text-decoration: none;
+        }
 
-    setCurrentQuestion(randomEntry);
-    setOptions(allOptions);
-  };
+        /* Page styles */
+        .page {
+            padding: 20px;
+        }
 
-  const checkAnswer = (selectedOption) => {
-    if (selectedOption.chinese === currentQuestion.chinese) {
-      alert("Correct!");
-      setScore(score + 1);
-    } else {
-      alert("Incorrect!");
-    }
-    generateQuestion();
-  };
+        .large-box {
+            border-radius: 15px;
+            background-color: blue;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
 
-  return (
-    <div className="flex flex-col items-center p-4">
-      <h1 className="text-3xl font-roboto mb-4">Learn Words</h1>
+        .large-box:hover {
+            background-color: darkblue;
+            cursor: pointer;
+        }
 
-      {page === "words" && (
-        <div className="w-full max-w-lg">
-          <h2 className="text-xl font-roboto mb-2">Create Question Bank</h2>
+        h1 {
+            font-size: 2em;
+            margin-top: 0;
+        }
 
-          <form className="mb-8" onSubmit={addWord}>
-            {/* 表單輸入部分省略 */}
-            <button
-              type="submit"
-              className="w-full py-2 bg-blue-500 text-white rounded"
-            >
-              Add Word
-            </button>
-          </form>
-
-          <h2 className="text-xl font-roboto mb-2">Start Test</h2>
-          <button
-            onClick={startTest}
-            className="w-full py-2 mb-4 bg-green-500 text-white rounded"
-          >
-            Start
-          </button>
-        </div>
-      )}
-
-      {page === "test" && (
-        <div className="w-full max-w-lg">
-          <h3 className="text-lg font-roboto mb-2">
-            Translate the following word:
-          </h3>
-          <p className="text-xl font-roboto mb-4" id="chinese-question">
-            {currentQuestion?.chinese}
-          </p>
-
-          <div className="grid grid-cols-2 gap-4">
-            {options.map((option, index) => (
-              <button
-                key={index}
-                className="py-2 px-4 bg-white border border-gray-300 rounded"
-                onClick={() => checkAnswer(option)}
-              >
-                {option.english}
-              </button>
-            ))}
-          </div>
-
-          <p className="text-lg font-roboto mt-4">Score: {score}</p>
-        </div>
-      )}
+        /* Add more styles as needed */
+    </style>
+</head>
+<body>
+    <div id="navigation">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#settings">Settings</a></li>
+        </ul>
     </div>
-  );
-}
 
-export default MainComponent;
+    <div id="content">
+        <div id="home" class="page">
+            <h1>English Learning App</h1>
+            <div class="large-box">開始測驗</div>
+            <div class="large-box">單字拼寫</div>
+        </div>
+
+        <div id="quiz" class="page" style="display: none;">
+            <!-- Quiz content goes here -->
+        </div>
+
+        <div id="settings" class="page" style="display: none;">
+            <!-- Settings content goes here -->
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for handling navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navigationLinks = document.querySelectorAll('#navigation ul li a');
+            const pages = document.querySelectorAll('.page');
+
+            navigationLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    pages.forEach(page => {
+                        if (page.id === targetId) {
+                            page.style.display = 'block';
+                        } else {
+                            page.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
