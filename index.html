@@ -1,16 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learn Words App</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div id="root"></div>
-  <script src="react.development.js"></script>
-  <script src="react-dom.development.js"></script>
-  <script src="babel.min.js"></script>
-  <script type="text/babel" src="MainComponent.js"></script>
-</body>
-</html>
+import React, { useState } from "react";
+
+function MainComponent() {
+  const [questionBank, setQuestionBank] = useState([]);
+  const [chineseWord, setChineseWord] = useState("");
+  const [englishWord, setEnglishWord] = useState("");
+  const [testStarted, setTestStarted] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [options, setOptions] = useState([]);
+  const [page, setPage] = useState("words");
+  const [score, setScore] = useState(0);
+
+  const addWord = (e) => {
+    e.preventDefault();
+    const newEntry = { chinese: chineseWord, english: englishWord };
+    setQuestionBank([...questionBank, newEntry]);
+    setChineseWord("");
+    setEnglishWord("");
+  };
+
+  const startTest = () => {
+    if (questionBank.length < 4) {
+      alert("Please add at least 4 words to the question bank.");
+      return;
+    }
+    setTestStarted(true);
+    setPage("test");
+    generateQuestion();
+  };
+
+  const generateQuestion = () => {
+    const randomEntry =
+      questionBank[Math.floor(Math.random() * questionBank.length)];
+    const incorrectOptions = questionBank.filter((q) => q !== randomEntry);
+    const randomOptions = incorrectOptions
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3);
+    const allOptions = [...randomOptions, randomEntry].sort(
+      () => 0.5 - Math.random()
+    );
+
+    setCurrentQuestion(randomEntry);
+    setOptions(allOptions);
+  };
+
+  const checkAnswer = (selectedOption) => {
+    if (selectedOption.chinese === currentQuestion.chinese) {
+      alert("Correct!");
+      setScore(score + 1);
+    } else {
+      alert("Incorrect!");
+    }
+    generateQuestion();
+  };
+
+  return (
+    <div className="flex flex-col items-center p-4">
+      <h1 className="text-3xl font-roboto mb-4">Learn Words</h1>
+
+      {page === "words" && (
+        <div className="w-full max-w-lg">
+          <h2 className="text-xl font-roboto mb-2">Create Question Bank</h2>
+
+          <form className="mb-8" onSubmit={addWord}>
+            {/* 省略表單輸入部分 */}
+
+            <button
+              type="submit"
+              className="w-full py-2 bg-blue-500 text-white rounded"
+            >
+              Add Word
+            </button>
+          </form>
+
+          <h2 className="text-xl font-roboto mb-2">Start Test</h2>
+          <button
+            onClick={startTest}
+            className="w-full py-2 mb-4 bg-green-500 text-white rounded"
+          >
+            Start
+          </button>
+        </div>
+      )}
+
+      {page === "test" && (
+        <div className="w-full max-w-lg">
+          <h3 className="text-lg font-roboto mb-2">
+            Translate the following word:
+          </h3>
+          <p className="text-xl font-roboto mb-4" id="chinese-question">
+            {currentQuestion?.chinese}
+          </p>
+
+          <div className="grid grid-cols-2 gap-4">
+            {options.map((option, index) => (
+              <button
+                key={index}
+                className="py-2 px-4 bg-white border border-gray-300 rounded"
+                onClick={() => checkAnswer(option)}
+              >
+                {option.english}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-lg font-roboto mt-4">Score: {score}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default MainComponent;
