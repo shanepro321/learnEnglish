@@ -1,60 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>英文單字四選一</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Test</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 24rem;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            width: 100%;
+            max-width: 18rem;
+        }
+        button {
+            background-color: #3490dc;
+            color: white;
+            font-weight: bold;
+            padding: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2779bd;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 18rem;
+            margin-top: 1rem;
+        }
+        .nav-buttons button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .nav-buttons button:hover {
+            color: #91c5ff;
+        }
+    </style>
 </head>
 <body>
-<h1>請選擇正確的單字：</h1>
-<div id="question"></div>
-<div id="options"></div>
-<button onclick="checkAnswer()">確認答案</button>
-
-<script>
-const words = [
-    { question: 'Excitement', options: ['A. Thrill', 'B. Silence', 'C. Sadness', 'D. Fear'], answer: 'A' },
-    { question: 'Delicious', options: ['A. Tasty', 'B. Bland', 'C. Bitter', 'D. Sour'], answer: 'A' },
-    { question: 'Calm', options: ['A. Serene', 'B. Angry', 'C. Anxious', 'D. Depressed'], answer: 'A' },
-    // 可以繼續添加更多單字及其選項
-];
-
-let currentQuestion = 0;
-
-function displayQuestion() {
-    const questionDiv = document.getElementById('question');
-    const optionsDiv = document.getElementById('options');
-    const currentWord = words[currentQuestion];
-
-    questionDiv.innerHTML = `<p>${currentWord.question}</p>`;
-    optionsDiv.innerHTML = currentWord.options.map(option => `<label><input type="radio" name="answer" value="${option.charAt(0)}">${option}</label><br>`).join('');
-}
-
-function checkAnswer() {
-    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-    if (!selectedAnswer) {
-        alert('請選擇一個答案！');
-        return;
-    }
-
-    const currentWord = words[currentQuestion];
-    const correctAnswer = currentWord.answer;
-
-    if (selectedAnswer.value === correctAnswer) {
-        alert('答對了！');
-    } else {
-        alert('答錯了！');
-    }
-
-    currentQuestion++;
-    if (currentQuestion < words.length) {
-        displayQuestion();
-    } else {
-        alert('已經答完所有單字！');
-    }
-}
-
-displayQuestion();
-</script>
+    <div class="container">
+        <h1>Word Test</h1>
+        <div class="button-grid">
+            <button>Start</button>
+            <button>Question bank selection</button>
+            <button>Spelling of words</button>
+            <button>Edit the word</button>
+        </div>
+        <div class="nav-buttons">
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="sr-only">Play Game</span>
+            </button>
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3m7.5-7.5h-3m-12 0H4.5m15.75 3.75l-2.25-2.25m0 0l-2.25 2.25m2.25-2.25V6.75m0 8.25l2.25 2.25M9.75 6.75l2.25 2.25m0 0l2.25-2.25M12 9V6.75m0 8.25l-2.25 2.25m2.25-2.25l2.25 2.25" />
+                </svg>
+                <span class="sr-only">Settings</span>
+            </button>
+        </div>
+    </div>
 </body>
 </html>
